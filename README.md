@@ -49,7 +49,6 @@ Open the local URL Streamlit prints in the terminal.
    ```toml
    HUGGINGFACEHUB_API_TOKEN = "hf_your_token_here"
    ```
-
 5. Deploy the app.
 
 ## Security
