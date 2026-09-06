@@ -1,56 +1,64 @@
-# Research Tool
+# Basic Chatbot
 
-A small Streamlit application that sends a prompt to a Hugging Face-hosted language model and displays its response.
+A conversational chatbot built with [Streamlit](https://streamlit.io/), [LangChain](https://www.langchain.com/), and Hugging Face. It keeps the conversation visible during a browser session and generates replies with the `Qwen/Qwen3.8-27B:ovhcloud` model.
 
-## Prerequisites
+## Features
 
-- Python 3.10 or later
+- Chat-style interface with conversation history
+- Hugging Face model inference through LangChain
+- One-click button to clear the current chat
+- Local environment-variable configuration for the Hugging Face token
+
+## Requirements
+
+- Python 3.10 or newer
 - A Hugging Face access token
 
-## Run locally
+## Installation
 
-1. Create and activate a virtual environment.
+Clone the repository and enter it:
 
-   ```bash
-   python -m venv .venv
-   # Windows PowerShell
-   .venv\\Scripts\\Activate.ps1
-   # macOS/Linux
-   source .venv/bin/activate
-   ```
+```bash
+git clone https://github.com/Akshay-3210/basic-chatbot.git
+cd basic-chatbot
+```
 
-2. Install dependencies.
+Create and activate a virtual environment:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+python -m venv .venv
+# Windows PowerShell
+.venv\\Scripts\\Activate.ps1
+# macOS/Linux
+source .venv/bin/activate
+```
 
-3. Create a `.env` file in the project root:
+Install the dependencies:
 
-   ```env
-   HUGGINGFACEHUB_API_TOKEN=hf_your_token_here
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-4. Start the app.
+Create a `.env` file in the project root and add your Hugging Face token:
 
-   ```bash
-   streamlit run prompt_ui.py
-   ```
+```env
+HUGGINGFACEHUB_API_TOKEN=hf_your_token_here
+```
 
-Open the local URL Streamlit prints in the terminal.
+## Run the app
 
-## Deploy to Streamlit Community Cloud
+```bash
+streamlit run chatbot.py
+```
 
-1. Push this repository to GitHub. Do not commit `.env` or `.streamlit/secrets.toml`.
-2. In [Streamlit Community Cloud](https://share.streamlit.io/), create an app from this repository.
-3. Select `prompt_ui.py` as the main file.
-4. In **Advanced settings → Secrets**, add:
+Open the local address Streamlit displays in the terminal, type a message, and press Enter. Use **🗑️ Clear Chat** to start a fresh conversation.
 
-   ```toml
-   HUGGINGFACEHUB_API_TOKEN = "hf_your_token_here"
-   ```
-5. Deploy the app.
+## Project files
+
+- `chatbot.py` — the Streamlit chatbot application
+- `prompt_ui.py` — a separate paper-summary interface
+- `requirements.txt` — Python dependencies
 
 ## Security
 
-Treat your Hugging Face token as a password. If it is ever committed or shared accidentally, revoke it in Hugging Face and create a replacement token.
+Never commit your `.env` file or Hugging Face token. If a token is exposed, revoke it from your Hugging Face account and issue a new one.
