@@ -1,4 +1,5 @@
 from langchain_huggingface import ChatHuggingFace,HuggingFaceEndpoint
+from langchain_core.messages import SystemMessage,HumanMessage,AIMessage
 from dotenv import load_dotenv
 import streamlit as st
 
@@ -10,30 +11,29 @@ model=ChatHuggingFace(llm=llm)
 st.header("Akshay's chatbot")
 
 if "messages" not in st.session_state:
-    st.session_state.messages=[]
+    st.session_state.messages=[
+        SystemMessage(content="You are a helpful assistant")
+    ]
 
 for message in st.session_state.messages:
-     with st.chat_message(message["role"]):
-        st.write(message["content"])
+     if type(message)==HumanMessage:
+        with st.chat_message("user"):
+            st.write(message.content)
+     elif type(message)==AIMessage:
+         with st.chat_message("assistant"):
+             st.write(message.content)
 
 user_input=st.chat_input("type your message ")
 
 if user_input:
-    st.session_state.messages.append({"role":"user","content":user_input})
+    st.session_state.messages.append(HumanMessage(content=user_input))
 
-    query=""
-    for message in st.session_state.messages:
-        if message["role"]=="user":
-            query=query+"user: "
-        else:
-            query=query+"AI: "
-        query=query+message["content"]
-    query=query+"\n"+user_input
-
-    result=model.invoke(query)
-    st.session_state.messages.append({"role":"assistant","content":result.content})
+    result=model.invoke(st.session_state.messages)
+    st.session_state.messages.append(AIMessage(content=result.content))
 
     st.rerun()
 if st.button("🗑️ Clear Chat"):
-    st.session_state.messages = []
+    st.session_state.messages = [
+        SystemMessage(content="You are a helpful assistant")
+    ]
     st.rerun()
